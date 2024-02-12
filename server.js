@@ -14,7 +14,7 @@ const validateApikey = (req,res,next) => {
   if(!apikey){
     return res.status(401).json({ error: 'Unauthorized - API key required' });
   }
-  if(apikey!=="Bearer " + process.env.KoalaApi){
+  if(apikey!=="Bearer " + KoalaApi){
     return res.status(401).json({ error: 'Unauthorized - Invalid API key' });
   }
   next();
@@ -79,6 +79,14 @@ app.post('/generate-article', async (req, res) => {
       !('finalMaxVideos' in req.body)
     )) {
       return res.status(400).json({ error: "finalImageStyle, finalMaxImages, finalImageSize, finalMaxVideos are required when finalMultimediaOption is 'auto'" });
+    }
+    if (finalArticleLength !== "custom number of sections" && finalNumberOfSections) {
+      return res.status(400).json({ error: 'finalNumberOfSections should not be provided unless finalArticleLength is "custom number of sections"' });
+    }
+    if (finalArticleLength === "custom number of sections") {
+      if (!Number.isInteger(finalNumberOfSections)) {
+        return res.status(400).json({ error: 'finalNumberOfSections must be an integer' });
+      }
     }
     const response = await axios.post(
       'https://koala.sh/api/articles/',
