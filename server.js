@@ -123,24 +123,6 @@ app.post('/generate-article', async (req, res) => {
   }
 });
 
-// Endpoint for fetching article details
-// app.get('/article-details/:articleId', async (req, res) => {
-//   try {
-//     const { articleId } = req.params;
-//     const response = await axios.get(`https://koala.sh/api/articles/${articleId}`, {
-//       headers: {
-//         Authorization: `Bearer 2881a586-fe63-46bb-a078-d6e6d2477128`,
-//         'Content-Type': 'application/json',
-//       },
-//     });
-
-//     res.json(response.data);
-//   } catch (error) {
-//     console.error('Error fetching article details:', error.message);
-//     res.status(error.response?.status || 500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
 module.exports = app;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
